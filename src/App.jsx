@@ -4,7 +4,7 @@ import { initializeApp } from "firebase/app";
 import ReduxThunk from 'redux-thunk';
 import reducers from "./reducers";
 import config from "./firebaseConfig/firebase.config";
-import LoginForm from "./components/LoginForm";
+import Router from "./Router";
 
 export const app = initializeApp(config);
 
@@ -12,7 +12,7 @@ export default function App() {
   const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
   return (
     <Provider store={store}>
-      <LoginForm />
+      <Router/>
     </Provider>
   );
 }

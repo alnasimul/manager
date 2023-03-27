@@ -25,7 +25,7 @@ const styles = {
     elevation: 1,
     marginLeft: 5,
     marginRight: 5,
-    marginTop: 300,
+    marginTop: 10,
     padding: 10
   }
 };
