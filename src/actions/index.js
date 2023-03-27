@@ -9,6 +9,7 @@ import {
   PASSWORD_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
+  LOGIN_USER,
 } from "./types";
 import config from "../firebaseConfig/firebase.config";
 
@@ -32,11 +33,14 @@ export const passwordChanged = (text) => {
 
 export const loginUser = ({ email, password }) => {
   return (dispatch) => {
+    dispatch({ type: LOGIN_USER })
+    
     signInWithEmailAndPassword(auth, email, password)
       .then((user) => {
         loginUserSuccess(dispatch, user);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error)
         createUserWithEmailAndPassword(auth, email, password)
         .then((user) => {
           loginUserSuccess(dispatch, user);
