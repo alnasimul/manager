@@ -1,18 +1,19 @@
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import { initializeApp } from "firebase/app";
-import ReduxThunk from 'redux-thunk';
+import ReduxThunk from "redux-thunk";
 import reducers from "./reducers";
 import config from "./firebaseConfig/firebase.config";
-import Router from "./Router";
+import RouterComponent from "./Router";
+import React from "react";
 
 export const app = initializeApp(config);
 
-export default function App() {
-  const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
+export default function App({navigation}) {
+  const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
   return (
     <Provider store={store}>
-      <Router/>
+      <RouterComponent navigation={navigation} />
     </Provider>
   );
 }
@@ -21,7 +22,7 @@ export default function App() {
 //   container: {
 //     flex: 1,
 //     flexDirection: "row",
-//     backgroundColor: "#fff",
+//     backgroundColor: "#ffffff",
 //     alignItems: "center",
 //     justifyContent: "center",
 //   },

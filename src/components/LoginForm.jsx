@@ -14,7 +14,7 @@ const LoginForm = (props) => {
   const onButtonPress = () => {
     const { email, password } = props;
 
-    props.loginUser({ email, password });
+    props.loginUser({ email, password, navigation: props.navigation });
   };
 
   const renderError = () => {
