@@ -6,6 +6,7 @@ const config = {
     messagingSenderId: "205362069443",
     appId: "1:205362069443:web:20d88427894f92d5f50776",
     measurementId: "G-YKTKEXKM2M",
+    databaseURL: "https://manager-ade0a-default-rtdb.firebaseio.com/"
   };
 
  export default config 
