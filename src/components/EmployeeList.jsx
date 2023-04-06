@@ -1,23 +1,32 @@
 import _ from "lodash";
-import { Button, Text, View } from "react-native";
+import { FlatList } from "react-native";
 import { connect } from "react-redux";
 import { employeesFetch } from "../actions";
+import { useEffect, useState } from "react";
+import ListItem from "./ListItem";
 
-const EmployeeList = (props) => {
-  console.log(props.employees);
+const EmployeeList = ({ employees, employeesFetch, navigation }) => {
+  const [dataSource, setDataSource] = useState([]);
+
+  useEffect(() => {
+    employeesFetch();
+  }, [employeesFetch]);
+
+  useEffect(() => {
+    setDataSource(employees);
+  }, [employees]);
+
+  const renderItem = ({ item }) => <ListItem employee={item} navigation={navigation} />;
   return (
-    <View>
-      <Text>Emlpoyee List</Text>
-      <Text>Emlpoyee List</Text>
-      <Text>Emlpoyee List</Text>
-      <Text>Emlpoyee List</Text>
-      <Button onPress={() => props.employeesFetch()} title="Load" />
-    </View>
+    <FlatList
+    data={dataSource}
+    renderItem={renderItem}
+    keyExtractor={(item) => item.uid}
+  />
   );
 };
 
 const mapStateToProps = (state) => {
-  console.log("state", state.employees)
   const employees = _.map(state.employees, (val, uid) => {
     return { ...val, uid };
   });

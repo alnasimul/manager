@@ -1,10 +1,11 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getDatabase, ref, push, onValue } from "firebase/database";
+import { getDatabase, ref, push, onValue, set } from "firebase/database";
 import {
   EMPLOYEE_UPDATE,
   EMPLOYEE_CREATE,
   EMPLOYEES_FETCH_SUCCESS,
+  EMPLOYEE_SAVE_SUCCESS,
 } from "./types";
 import config from "../firebaseConfig/firebase.config";
 
@@ -36,6 +37,25 @@ export const employeesFetch = () => {
     const employeesRef = ref(database, `users/${currentUser.uid}/employees`);
     onValue(employeesRef, (snapshot) => {
       dispatch({ type: EMPLOYEES_FETCH_SUCCESS, payload: snapshot.val() });
+    });
+  };
+};
+
+export const employeeSave = ({ name, phone, shift, uid }) => {
+  const { currentUser } = auth;
+
+  return (dispatch) => {
+    const employeesRef = ref(
+      database,
+      `users/${currentUser.uid}/employees/${uid}`
+    );
+
+    return set(employeesRef, { name, phone, shift })
+    .then(() => {
+      dispatch({ type: EMPLOYEE_SAVE_SUCCESS })
+    })
+    .catch((error) => {
+      console.error('Error updating employee data:', error);
     });
   };
 };

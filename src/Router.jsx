@@ -4,6 +4,7 @@ import LoginForm from "./components/LoginForm";
 import EmployeeList from "./components/EmployeeList";
 import { Button } from "react-native";
 import EmployeeCreate from "./components/EmployeeCreate";
+import EmployeeEdit from "./components/EmployeeEdit";
 
 const Stack = createNativeStackNavigator();
 
@@ -51,6 +52,14 @@ const RouterComponent = () => {
             component={EmployeeCreate}
             options={{
               title: "Create Employee",
+              headerTitleAlign: "center",
+            }}
+          />
+           <Stack.Screen
+            name="employeeEdit"
+            component={EmployeeEdit}
+            options={{
+              title: "Edit Employee",
               headerTitleAlign: "center",
             }}
           />
