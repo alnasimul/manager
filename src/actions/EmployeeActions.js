@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getDatabase, ref, push, onValue, set } from "firebase/database";
+import { getDatabase, ref, push, onValue, set, remove } from "firebase/database";
 import {
   EMPLOYEE_UPDATE,
   EMPLOYEE_CREATE,
@@ -45,12 +45,12 @@ export const employeeSave = ({ name, phone, shift, uid }) => {
   const { currentUser } = auth;
 
   return (dispatch) => {
-    const employeesRef = ref(
+    const employeeRef = ref(
       database,
       `users/${currentUser.uid}/employees/${uid}`
     );
 
-    return set(employeesRef, { name, phone, shift })
+    return set(employeeRef, { name, phone, shift })
     .then(() => {
       dispatch({ type: EMPLOYEE_SAVE_SUCCESS })
     })
@@ -59,3 +59,23 @@ export const employeeSave = ({ name, phone, shift, uid }) => {
     });
   };
 };
+
+export const employeeDelete = ({uid}) => {
+  const { currentUser } = auth;
+
+  return () => {
+    const employeeRef = ref(
+      database,
+      `users/${currentUser.uid}/employees/${uid}`
+    );
+
+    remove(employeeRef)
+    .then(() => {
+      
+    })
+    .catch((error) => {
+     
+    });
+
+  }
+}

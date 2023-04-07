@@ -1,12 +1,14 @@
 import { connect } from "react-redux";
 import EmployeeForm from "./EmployeeForm";
 import Communications from "react-native-communications";
-import { employeeUpdate, employeeSave } from "../actions";
-import { Button, Card, CardSection } from "./common";
+import { employeeUpdate, employeeSave, employeeDelete } from "../actions";
+import { Button, Card, CardSection, Confirm } from "./common";
 import { useEffect } from "react";
 import _ from "lodash";
+import { useState } from "react";
 
 const EmployeeEdit = (props) => {
+  const [showModal, setShowModal] = useState(false)
   const { employee } = props.route.params;
 
   useEffect(() => {
@@ -31,6 +33,15 @@ const EmployeeEdit = (props) => {
     Communications.textWithoutEncoding(phone, message);
   };
 
+  const onAccept = () => {
+    props.employeeDelete({uid: employee.uid})
+    props.navigation.navigate("employeeList");
+  }
+
+  const onDecline = () => {
+    setShowModal(!showModal)
+  }
+
   return (
     <Card>
       <EmployeeForm />
@@ -40,6 +51,13 @@ const EmployeeEdit = (props) => {
       <CardSection>
         <Button onPress={onTextPress}>Text Schedule</Button>
       </CardSection>
+      <CardSection>
+        <Button onPress={() => setShowModal(!showModal)}>Fire Employee</Button>
+      </CardSection>
+
+      <Confirm visible={ showModal } onAccept={onAccept} onDecline={onDecline}>
+        Are you sure you want to fire this employee?
+      </Confirm>
     </Card>
   );
 };
@@ -50,6 +68,6 @@ const mapStateToProps = (state) => {
   return { name, phone, shift };
 };
 
-export default connect(mapStateToProps, { employeeUpdate, employeeSave })(
+export default connect(mapStateToProps, { employeeUpdate, employeeSave, employeeDelete })(
   EmployeeEdit
 );
